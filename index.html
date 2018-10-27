@@ -2,7 +2,6 @@
 <html>
 <head>
 <title>Haunted Defence</title>
-
 <style>
 
 body,
@@ -61,22 +60,37 @@ a:visited {
     text-align: center;
 }
 
+#tracks {
+    position: absolute;
+    left: 100px;
+    top: 30px;
+    margin-left: 0px;
+}
+
 .row {
 	float: left;
-	width: 298px;
-	height: 42px;
-	background-color: #333;
-	margin-left: 0px;
+	width: 400px;
+	height: 40px;
+	background-color: #623;
 }
 
 .cell {
 	float: left;
-	width: 42px;
-	height: 42px;
-/*	background-color: #706872;*/
-/*	background-color: #111;*/
-	margin-top: 0px;
-	margin-left: 0px;
+	width: 40px;
+	height: 40px;
+	background-color: #606872;
+}
+
+.cell:nth-of-type(odd) {
+    background-color: #504862;
+}
+
+.row:nth-of-type(odd) .cell {
+    background-color: #504862;
+}
+
+.row:nth-of-type(odd) .cell:nth-of-type(odd) {
+    background-color: #606872;
 }
 
 .hide {
@@ -87,14 +101,16 @@ a:visited {
 </style>
 
 <script src="jquery-1.10.2.min.js"></script>
-
 <script src="haunted-defence.js"></script>
 
 <script>
 
 $().ready(function() {
 
+    hhtd.init();
     console.log(hhtd);
+
+    setInterval(hhtd.timer, 100);
 });
 
 </script>
@@ -106,6 +122,9 @@ $().ready(function() {
 	</div>
 
 	<div id="container">
+
+        <div id="tracks">
+        </div>
 	</div>
 
 	<div id="right-side">
