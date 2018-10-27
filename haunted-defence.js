@@ -7,26 +7,34 @@ var hhtd = {
     unit: 40,
     money: 300,
     layout: [
-        ["", "", "", "", "", "", "", "", "", ""],
+        ["", "", "", "", "Vampire", "", "", "", "", ""],
         ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],
         ["", "|", "", "", "", "", "", "", "|", ""],
         ["", "|", "", "", "", "", "", "", "|", ""],
-        ["", "|", "", "", "", "", "", "", "|", ""],
-        ["", "|", "", "", "", "", "", "", "|", ""],
+        ["", "|", "Ghost", "", "", "", "", "", "|", ""],
+        ["", "|", "", "", "", "", "", "Zombie", "|", ""],
         ["", "|", "", "", "", "", "", "", "|", ""],
         ["", ".", "-", ".", "", "", ".", "-", ".", ""],
         ["", "", "", "|", "", "", "|", "", "", ""],
         ["", "", "", "END", "", "", "START", "", "", ""]
     ],
+    route: [[6, 9], [6, 8], [6, 7], [7, 7], [8, 7], [8, 6], [8, 5], [8, 4], [8, 3], [8, 2], [8, 1], [7, 1], [6, 1], [5, 1], [4, 1], [3, 1], [2, 1], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [2, 7], [3, 7], [3, 8], [3, 9]],
     trains: [],
     schedule: [{
         time: 20,
         passengers: 2,
-        name: "Alfred"
+        name: "Alfred",
+        color: "#40da32"
     }, {
         time: 80,
         passengers: 2,
-        name: "Bill"
+        name: "Bill",
+        color: "#b06a42"
+    }, {
+        time: 140,
+        passengers: 2,
+        name: "Chris",
+        color: "#a4ba52"
     }]
 }
 
@@ -52,6 +60,18 @@ hhtd.init = function() {
             else if (hhtd.layout[y][x] == ".") {
 
                 rowHtml += "<div class='cell'><div class='junction'></div></div>";
+            }
+            else if (hhtd.layout[y][x] == "Zombie") {
+
+                rowHtml += "<div class='cell'><div class='zombie-1'></div></div>";
+            }
+            else if (hhtd.layout[y][x] == "Vampire") {
+
+                rowHtml += "<div class='cell'><div class='vampire-1'></div></div>";
+            }
+            else if (hhtd.layout[y][x] == "Ghost") {
+
+                rowHtml += "<div class='cell'><div class='ghost-1'></div></div>";
             }
             else if (hhtd.layout[y][x]) {
 
@@ -115,19 +135,27 @@ hhtd.timer = function() {
 
 //    console.log(hhtd.time);
 
-    // $(".train").remove();
+    $(".train").remove();
 
     $.each(hhtd.trains, function(i, t) {
 
         console.log(t);
 
-        var trainHtml = "<div class='train'></div>";
 
+        if (t.cellprogress < hhtd.route.length) {
+
+        var trainHtml = "<div class='train'></div>";
 
         $("#tracks").append(trainHtml);
 
-        $(".train:last").css("left", ((hhtd.unit/2) - 6 + (t.x * hhtd.unit)) + "px");
-        $(".train:last").css("top", ((hhtd.unit/2) - 2 + (t.y * hhtd.unit)) + "px");
+            var c = hhtd.route[t.cellprogress];
+
+//            console.log(c);
+
+            $(".train:last").css("left", ((hhtd.unit/2) - 8 + (c[0] * hhtd.unit)) + "px");
+            $(".train:last").css("top", ((hhtd.unit/2) - 8 + (c[1] * hhtd.unit)) + "px");
+            $(".train:last").css("background-color", t.color);
+        }
 
         t.time++;
 
@@ -135,6 +163,7 @@ hhtd.timer = function() {
 
             t.y--;
             t.celltime++;
+            t.cellprogress++;
         }
     });
 
@@ -149,8 +178,10 @@ hhtd.timer = function() {
             hhtd.AddTrain({
                 passengers: newTrain.passengers,
                 name: newTrain.name,
+                color: newTrain.color,
                 time: 0,
                 celltime: 0,
+                cellprogress: 0,
                 x: hhtd.start.x,
                 y: hhtd.start.y
             });
