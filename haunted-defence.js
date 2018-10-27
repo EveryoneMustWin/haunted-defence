@@ -2,7 +2,25 @@
 
 var hhtd = {
     width: 10,
-    height: 8
+    height: 10,
+    time: 0,
+    layout: [
+        ["", "", "", "", "", "", "", "", "", ""],
+        ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],
+        ["", "|", "", "", "", "", "", "", "|", ""],
+        ["", "|", "", "", "", "", "", "", "|", ""],
+        ["", "|", "", "", "", "", "", "", "|", ""],
+        ["", "|", "", "", "", "", "", "", "|", ""],
+        ["", "|", "", "", "", "", "", "", "|", ""],
+        ["", ".", "-", ".", "", "", ".", "-", ".", ""],
+        ["", "", "", "|", "", "", "|", "", "", ""],
+        ["", "", "", "END", "", "", "START", "", "", ""]
+    ],
+    trains: [],
+    schedule: [{
+        time: 20,
+        passengers: 2
+    }]
 }
 
 hhtd.init = function() {
@@ -15,8 +33,29 @@ hhtd.init = function() {
 
         for (var x = 0; x < hhtd.width; x++) {
 
-            console.log("another cell");
-            rowHtml += "<div class='cell'></div>";
+            if (hhtd.layout[y][x] == "|") {
+
+                rowHtml += "<div class='cell'><div class='v-track'></div></div>";
+
+            }
+            else if (hhtd.layout[y][x] == "-") {
+
+                rowHtml += "<div class='cell'><div class='h-track'></div></div>";
+            }
+            else if (hhtd.layout[y][x] == ".") {
+
+                rowHtml += "<div class='cell'><div class='junction'></div></div>";
+            }
+            else if (hhtd.layout[y][x]) {
+
+                console.log("layout text exists " + hhtd.layout[y][x]);
+                rowHtml += "<div class='cell'><div class='word'>" + hhtd.layout[y][x] + "</div></div>";
+
+            }
+            else {
+
+                rowHtml += "<div class='cell'></div>";
+            }
         }
 
         rowHtml += "</div>";
@@ -26,5 +65,31 @@ hhtd.init = function() {
 }
 
 hhtd.timer = function() {
-    console.log("timer");
+    // console.log("timer");
+
+    hhtd.time++;
+
+    if (hhtd.time % 2 == 0) {
+
+        var c = Math.random() * 140;
+        var rgba = "rgba(" + (60 + (c/8)) + ", " + (100 + (c/4)) + ", " + (60 + (c/7)) + ", 0.8)";
+
+        // console.log(rgba);
+
+        $("#title").css("color", rgba);
+    }
+
+    console.log(hhtd.time);
+
+    if (hhtd.schedule.length > 0) {
+
+        if (hhtd.time >= hhtd.schedule[0].time) {
+
+            console.log("all aboard!");
+            var newTrain = hhtd.schedule.pop();
+
+            console.log("new schedule:");
+            console.log(hhtd.schedule);
+       }
+    }
 }
