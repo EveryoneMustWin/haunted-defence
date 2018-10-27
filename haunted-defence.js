@@ -18,7 +18,6 @@ var hhtd = {
         ["", "", "", "|", "", "", "|", "", "", ""],
         ["", "", "", "END", "", "", "START", "", "", ""]
     ],
-    route: [[6, 9], [6, 8], [6, 7], [7, 7], [8, 7], [8, 6], [8, 5], [8, 4], [8, 3], [8, 2], [8, 1], [7, 1], [6, 1], [5, 1], [4, 1], [3, 1], [2, 1], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7], [2, 7], [3, 7], [3, 8], [3, 9]],
     trains: [],
     schedule: [{
         time: 20,
@@ -37,6 +36,157 @@ var hhtd = {
         color: "#a4ba52"
     }]
 }
+
+hhtd.bottomToTop = function(t) {
+
+    var c = {
+        x: 20,
+        y: 40 - (2 * t)
+    }
+
+    console.log("bottomToTop(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.bottomToRight = function(t) {
+
+    var c = {
+        x: 20 + t,
+        y: 40 - t
+    }
+
+    console.log("bottomToRight(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.leftToRight = function(t) {
+
+    var c = {
+        x: (t * 2),
+        y: 20
+    }
+
+    console.log("bottomToRight(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.leftToTop = function(t) {
+
+    var c = {
+        x: t,
+        y: 20 - t
+    }
+
+    console.log("leftToTop(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.bottomToLeft = function(t) {
+
+    var c = {
+        x: 20 - t,
+        y: 40 - t
+    }
+
+    console.log("bottomToLeft(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.rightToLeft = function(t) {
+
+    var c = {
+        x: 40 - (2 * t),
+        y: 20
+    }
+
+    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.rightToBottom = function(t) {
+
+    var c = {
+        x: 40 - t,
+        y: 20 + t
+    }
+
+    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.topToBottom = function(t) {
+
+    var c = {
+        x: 20,
+        y: t * 2
+    }
+
+    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.topToRight = function(t) {
+
+    var c = {
+        x: 20 + t,
+        y: t
+    }
+
+    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.leftToBottom = function(t) {
+
+    var c = {
+        x: t,
+        y: 20 + t
+    }
+
+    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+
+    return c;
+}
+
+hhtd.route = [
+    { x: 6, y: 9, helper: hhtd.bottomToTop }, 
+    { x: 6, y: 8, helper: hhtd.bottomToTop }, 
+    { x: 6, y: 7, helper: hhtd.bottomToRight }, 
+    { x: 7, y: 7, helper: hhtd.leftToRight }, 
+    { x: 8, y: 7, helper: hhtd.leftToTop }, 
+    { x: 8, y: 6, helper: hhtd.bottomToTop }, 
+    { x: 8, y: 5, helper: hhtd.bottomToTop }, 
+    { x: 8, y: 4, helper: hhtd.bottomToTop }, 
+    { x: 8, y: 3, helper: hhtd.bottomToTop }, 
+    { x: 8, y: 2, helper: hhtd.bottomToTop }, 
+    { x: 8, y: 1, helper: hhtd.bottomToLeft }, 
+    { x: 7, y: 1, helper: hhtd.rightToLeft }, 
+    { x: 6, y: 1, helper: hhtd.rightToLeft }, 
+    { x: 5, y: 1, helper: hhtd.rightToLeft }, 
+    { x: 4, y: 1, helper: hhtd.rightToLeft }, 
+    { x: 3, y: 1, helper: hhtd.rightToLeft }, 
+    { x: 2, y: 1, helper: hhtd.rightToLeft }, 
+    { x: 1, y: 1, helper: hhtd.rightToBottom }, 
+    { x: 1, y: 2, helper: hhtd.topToBottom }, 
+    { x: 1, y: 3, helper: hhtd.topToBottom }, 
+    { x: 1, y: 4, helper: hhtd.topToBottom }, 
+    { x: 1, y: 5, helper: hhtd.topToBottom }, 
+    { x: 1, y: 6, helper: hhtd.topToBottom }, 
+    { x: 1, y: 7, helper: hhtd.topToRight }, 
+    { x: 2, y: 7, helper: hhtd.leftToRight }, 
+    { x: 3, y: 7, helper: hhtd.leftToBottom }, 
+    { x: 3, y: 8, helper: hhtd.topToBottom }, 
+    { x: 3, y: 9, helper: hhtd.topToBottom }
+];
 
 hhtd.init = function() {
 
@@ -77,28 +227,6 @@ hhtd.init = function() {
 
 //                console.log("layout text exists " + hhtd.layout[y][x]);
                 rowHtml += "<div class='cell'><div class='word'>" + hhtd.layout[y][x] + "</div></div>";
-
-                if (hhtd.layout[y][x] == "START") {
-
-                    hhtd.start = {
-                        x: x,
-                        y: y
-                    }
-
-                    // console.log("set up start position");
-                    // console.log(hhtd.start);
-                }
-
-                if (hhtd.layout[y][x] == "END") {
-                    
-                    hhtd.end = {
-                        x: x,
-                        y: y
-                    }
-
-                    // console.log("set up end position");
-                    // console.log(hhtd.end);
-                }
             }
             else {
 
@@ -119,8 +247,6 @@ hhtd.AddTrain = function(t) {
 }
 
 hhtd.timer = function() {
-    // console.log("timer");
-
     hhtd.time++;
 
     if (hhtd.time % 2 == 0) {
@@ -133,36 +259,38 @@ hhtd.timer = function() {
         $("#title").css("color", rgba);
     }
 
-//    console.log(hhtd.time);
-
     $(".train").remove();
 
     $.each(hhtd.trains, function(i, t) {
 
-        console.log(t);
-
+//        console.log(t);
 
         if (t.cellprogress < hhtd.route.length) {
 
-        var trainHtml = "<div class='train'></div>";
+            var trainHtml = "<div class='train'></div>";
 
-        $("#tracks").append(trainHtml);
+            $("#tracks").append(trainHtml);
 
             var c = hhtd.route[t.cellprogress];
 
-//            console.log(c);
+            var o = c.helper(t.celltime);
 
-            $(".train:last").css("left", ((hhtd.unit/2) - 8 + (c[0] * hhtd.unit)) + "px");
-            $(".train:last").css("top", ((hhtd.unit/2) - 8 + (c[1] * hhtd.unit)) + "px");
+//            console.log(c);
+//           console.log(o);
+
+            // $(".train:last").css("left", ((hhtd.unit/2) - 8 + (c.x * hhtd.unit) + o.x) + "px");
+            // $(".train:last").css("top", ((hhtd.unit/2) - 8 + (c.y * hhtd.unit) + o.y) + "px");
+            $(".train:last").css("left", ( (hhtd.unit/2) - 23 + (c.x * hhtd.unit) + o.x) + "px");
+            $(".train:last").css("top", ( (hhtd.unit/2) - 21 + (c.y * hhtd.unit) + o.y) + "px");
             $(".train:last").css("background-color", t.color);
         }
 
         t.time++;
+        t.celltime++;
 
         if (t.time % 20 == 0) {
 
-            t.y--;
-            t.celltime++;
+            t.celltime = 0;
             t.cellprogress++;
         }
     });
@@ -181,9 +309,7 @@ hhtd.timer = function() {
                 color: newTrain.color,
                 time: 0,
                 celltime: 0,
-                cellprogress: 0,
-                x: hhtd.start.x,
-                y: hhtd.start.y
+                cellprogress: 0
             });
         }
     }
