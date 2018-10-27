@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Haunted Defence</title>
+
+<style>
+
+body,
+html {
+  position: fixed;
+}
+
+body {
+}
+
+#menu {
+    position: absolute;
+    left: 34px;
+    top: 22px;
+    width: 800px;
+    height: 60px;
+    background-color: #322844;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:visited { 
+	color: #4aa 
+}
+
+#title {
+    width: 800px;
+    height: 60px;
+    color: #4aa;
+    font-size: 46px;
+    text-align: center;
+}
+
+
+#container {
+    position: absolute;
+    left: 34px;
+    top: 80px;
+    width: 600px;
+    height: 480px;
+    background-color: #222;
+    text-align: center;
+    overflow: hidden;
+}
+
+
+#right-side {
+    position: absolute;
+    left: 634px;
+    top: 80px;
+    width: 200px;
+    height: 480px;
+    background-color: #567;
+    text-align: center;
+}
+
+.row {
+	float: left;
+	width: 298px;
+	height: 42px;
+	background-color: #333;
+	margin-left: 0px;
+}
+
+.cell {
+	float: left;
+	width: 42px;
+	height: 42px;
+/*	background-color: #706872;*/
+/*	background-color: #111;*/
+	margin-top: 0px;
+	margin-left: 0px;
+}
+
+.hide {
+	display: none;
+}
+
+
+</style>
+
+<script src="jquery-1.10.2.min.js"></script>
+
+<script src="haunted-defence.js"></script>
+
+<script>
+
+$().ready(function() {
+
+    console.log(hhtd);
+});
+
+</script>
+
+</head>
+<body>
+	<div id="menu">
+		<div id="title">Haunted House Tower Defence</div>
+	</div>
+
+	<div id="container">
+	</div>
+
+	<div id="right-side">
+	</div>
+</body>
+</html>
