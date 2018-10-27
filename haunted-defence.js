@@ -6,6 +6,7 @@ var hhtd = {
     time: 0,
     unit: 40,
     money: 300,
+    activeShopItem: "none",
     layout: [
         ["", "", "", "", "Vampire", "", "", "", "", ""],
         ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],
@@ -240,6 +241,7 @@ hhtd.init = function() {
     }
 
     $(".cell").click(clickHandler.onClick);
+    $(".shop-item").click(clickHandler.shopItemClick);
 }
 
 hhtd.AddTrain = function(t) {
@@ -323,4 +325,11 @@ hhtd.decrementMoney = function(cost) {
     this.money -= cost;
     $("#currency-display").text(this.money);
     return true;
+}
+
+hhtd.setActiveShopItem = function(item) {
+    $(".shop-item-selected").removeClass("shop-item-selected");
+    $(".shop-item-" + item).addClass("shop-item-selected");
+    this.activeShopItem = item;
+    console.log("Active shop item:", this.activeShopItem);
 }

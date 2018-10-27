@@ -158,6 +158,34 @@ a:visited {
     display: none;
 }
 
+.shop {
+    border: 1px solid black;
+}
+
+.shop-item {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-left: 16px;
+    background-color: #607888;
+    border: 2px solid black;
+}
+
+.shop-item-zombie {
+    background-image:url(zombie.png);
+}
+
+.shop-item-ghost {
+    background-image:url(ghost.png);
+}
+
+.shop-item-vampire {
+    background-image:url(vampire.png);
+}
+
+.shop-item-selected {
+    border: 2px solid white;
+}
 
 </style>
 
@@ -191,6 +219,14 @@ $().ready(function() {
         <div id="currency-container">
             <span>$</span>
             <span id="currency-display">300</span>
+        </div>
+        <div id="shop">
+            <div shopItem="zombie" class="shop-item shop-item-zombie shop-item-selected">
+            </div>
+            <div shopItem="vampire" class="shop-item shop-item-vampire">
+            </div>
+            <div shopItem="ghost" class="shop-item shop-item-ghost">
+            </div>
         </div>
     </div>
 </body>
