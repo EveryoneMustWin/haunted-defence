@@ -129,13 +129,14 @@ a:visited {
 }
 
 .hide {
-	display: none;
+    display: none;
 }
 
 
 </style>
 
 <script src="jquery-1.10.2.min.js"></script>
+<script src="click-handler.js"></script>
 <script src="haunted-defence.js"></script>
 
 <script>
@@ -162,7 +163,11 @@ $().ready(function() {
         </div>
 	</div>
 
-	<div id="right-side">
-	</div>
+    <div id="right-side">
+        <div id="currency-container">
+            <span>$</span>
+            <span id="currency-display">300</span>
+        </div>
+    </div>
 </body>
 </html>

@@ -20,7 +20,8 @@ var hhtd = {
     schedule: [{
         time: 20,
         passengers: 2
-    }]
+    }],
+    money: 300
 }
 
 hhtd.init = function() {
@@ -62,6 +63,8 @@ hhtd.init = function() {
 
         $("#tracks").append(rowHtml);
     }
+
+    $(".cell").click(clickHandler.onClick);
 }
 
 hhtd.timer = function() {
@@ -92,4 +95,14 @@ hhtd.timer = function() {
             console.log(hhtd.schedule);
        }
     }
+}
+
+hhtd.decrementMoney = function(cost) {
+    if(cost > this.money) {
+        return false;
+    }
+
+    this.money -= cost;
+    $("#currency-display").text(this.money);
+    return true;
 }
