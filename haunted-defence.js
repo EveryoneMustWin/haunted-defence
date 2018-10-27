@@ -4,6 +4,8 @@ var hhtd = {
     width: 10,
     height: 10,
     time: 0,
+    unit: 40,
+    money: 300,
     layout: [
         ["", "", "", "", "", "", "", "", "", ""],
         ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],
@@ -19,9 +21,13 @@ var hhtd = {
     trains: [],
     schedule: [{
         time: 20,
-        passengers: 2
-    }],
-    money: 300
+        passengers: 2,
+        name: "Alfred"
+    }, {
+        time: 80,
+        passengers: 2,
+        name: "Bill"
+    }]
 }
 
 hhtd.init = function() {
@@ -49,9 +55,30 @@ hhtd.init = function() {
             }
             else if (hhtd.layout[y][x]) {
 
-                console.log("layout text exists " + hhtd.layout[y][x]);
+//                console.log("layout text exists " + hhtd.layout[y][x]);
                 rowHtml += "<div class='cell'><div class='word'>" + hhtd.layout[y][x] + "</div></div>";
 
+                if (hhtd.layout[y][x] == "START") {
+
+                    hhtd.start = {
+                        x: x,
+                        y: y
+                    }
+
+                    // console.log("set up start position");
+                    // console.log(hhtd.start);
+                }
+
+                if (hhtd.layout[y][x] == "END") {
+                    
+                    hhtd.end = {
+                        x: x,
+                        y: y
+                    }
+
+                    // console.log("set up end position");
+                    // console.log(hhtd.end);
+                }
             }
             else {
 
@@ -65,6 +92,10 @@ hhtd.init = function() {
     }
 
     $(".cell").click(clickHandler.onClick);
+}
+
+hhtd.AddTrain = function(t) {
+    hhtd.trains.push(t);
 }
 
 hhtd.timer = function() {
@@ -82,18 +113,48 @@ hhtd.timer = function() {
         $("#title").css("color", rgba);
     }
 
-    console.log(hhtd.time);
+//    console.log(hhtd.time);
+
+    // $(".train").remove();
+
+    $.each(hhtd.trains, function(i, t) {
+
+        console.log(t);
+
+        var trainHtml = "<div class='train'></div>";
+
+
+        $("#tracks").append(trainHtml);
+
+        $(".train:last").css("left", ((hhtd.unit/2) - 6 + (t.x * hhtd.unit)) + "px");
+        $(".train:last").css("top", ((hhtd.unit/2) - 2 + (t.y * hhtd.unit)) + "px");
+
+        t.time++;
+
+        if (t.time % 20 == 0) {
+
+            t.y--;
+            t.celltime++;
+        }
+    });
 
     if (hhtd.schedule.length > 0) {
 
         if (hhtd.time >= hhtd.schedule[0].time) {
 
-            console.log("all aboard!");
-            var newTrain = hhtd.schedule.pop();
+            console.log("all aboard! t = " + hhtd.time);
 
-            console.log("new schedule:");
-            console.log(hhtd.schedule);
-       }
+            var newTrain = hhtd.schedule.shift();
+
+            hhtd.AddTrain({
+                passengers: newTrain.passengers,
+                name: newTrain.name,
+                time: 0,
+                celltime: 0,
+                x: hhtd.start.x,
+                y: hhtd.start.y
+            });
+        }
     }
 }
 

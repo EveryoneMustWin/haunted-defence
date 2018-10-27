@@ -128,6 +128,14 @@ a:visited {
     margin-top: 12px;
 }
 
+.train {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #40da32;
+    border-radius: 2px;
+}
+
 .hide {
     display: none;
 }
@@ -144,8 +152,6 @@ a:visited {
 $().ready(function() {
 
     hhtd.init();
-    console.log(hhtd);
-
     setInterval(hhtd.timer, 100);
 });
 
