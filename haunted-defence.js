@@ -7,7 +7,6 @@ var hhtd = {
     unit: 40,
     money: 400,
     activeShopItem: "zombie",
-    activeShopCost: 100,
     layout: [
         ["", "", "", "", "", "", "", "", "", ""],
         ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],

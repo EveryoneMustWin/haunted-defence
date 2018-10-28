@@ -1,7 +1,8 @@
 
 var clickHandler = {
     onClick: function (elem) {
-        if(!hhtd.decrementMoney(hhtd.activeShopCost))
+        var monster = monsters[hhtd.activeShopItem];
+        if(!hhtd.decrementMoney(monster.cost))
             return;
 
         if(hhtd.isCellOccupied(this))
@@ -18,9 +19,10 @@ var clickHandler = {
     },
 
     shopItemClick: function (elem) {
+        var monster = monsters[this.getAttribute("shopItem")];
         hhtd.setActiveShopItem(this.getAttribute("shopItem"));
-        hhtd.activeShopCost = parseInt(this.getAttribute("shopCost"), 10);
-        $("#shop-cost").text(this.getAttribute("shopCost"));
-        $("#shop-description").text(this.getAttribute("shopDescription"));
+        $("#shop-cost").text(monster.cost);
+        $("#shop-description").text(monster.description);
+
     }
 }
