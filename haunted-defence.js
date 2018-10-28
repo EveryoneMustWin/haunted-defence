@@ -25,25 +25,23 @@ var hhtd = {
         passengers: 2,
         name: "Alfred",
         color: "#40da32"
-    // }, {
-    //     time: 100,
-    //     passengers: 2,
-    //     name: "Bill",
-    //     color: "#b06a42"
-    // }, {
-    //     time: 220,
-    //     passengers: 2,
-    //     name: "Chris",
-    //     color: "#a4ba52"
-    // }, {
-    //     time: 320,
-    //     passengers: 2,
-    //     name: "Derek",
-    //     color: "#549ac2"
+    }, {
+        time: 100,
+        passengers: 2,
+        name: "Bill",
+        color: "#b06a42"
+    }, {
+        time: 220,
+        passengers: 2,
+        name: "Chris",
+        color: "#a4ba52"
+    }, {
+        time: 320,
+        passengers: 2,
+        name: "Derek",
+        color: "#549ac2"
     }]
 }
-
-
 
 hhtd.init = function() {
 
@@ -113,28 +111,28 @@ hhtd.rebuildGrid = function() {
             }
             else if (hhtd.layout[y][x] == "zombie") {
 
-                rowHtml += "<div class='zombie-1'></div>";
+                rowHtml += "<div class='zombie'></div>";
                 hhtd.AddMonster({
-                    x: x, 
-                    y: y, 
+                    x: x,
+                    y: y,
                     type: "zombie"
                 });
             }
             else if (hhtd.layout[y][x] == "vampire") {
 
-                rowHtml += "<div class='vampire-1'></div>";
+                rowHtml += "<div class='vampire'></div>";
                 hhtd.AddMonster({
-                    x: x, 
-                    y: y, 
+                    x: x,
+                    y: y,
                     type: "vampire"
                 });
             }
             else if (hhtd.layout[y][x] == "ghost") {
 
-                rowHtml += "<div class='ghost-1'></div>";
+                rowHtml += "<div class='ghost'></div>";
                 hhtd.AddMonster({
-                    x: x, 
-                    y: y, 
+                    x: x,
+                    y: y,
                     type: "ghost"
                 });
             }
@@ -158,8 +156,37 @@ hhtd.AddTrain = function(t) {
     hhtd.trains.push(t);
 }
 
-hhtd.AddMonster = function(t) {
-    hhtd.monsters.push(t);
+hhtd.AddMonster = function(m) {
+
+    m.awakening = 0;
+    m.awakeningFrame = 0;
+
+    m.scare = function(t) {
+
+        m.awakeThisCycle = true;
+
+        if (m.awakening < 12) {
+            console.log(m.awakening);
+            m.awakening++;
+
+            m.awakeningFrame = 1 + Math.floor(m.awakening / 6);
+        } else {
+
+            if (t.health > 0) {
+                t.health -= 2;
+            }
+
+            m.awakeningFrame = 3;
+        }
+    }
+
+    m.descare = function() {
+        if (m.awakeningFrame > 0) {
+            m.awakeningFrame--;
+        }
+    }
+
+    hhtd.monsters.push(m);
 }
 
 hhtd.timer = function() {
@@ -253,27 +280,33 @@ hhtd.moveTrains = function() {
 }
 
 hhtd.checkMonsters = function() {
+
     $.each(hhtd.monsters, function(i, m) {
 
-        // console.log("hello, monster " + i + " reporting in");
-        // console.log(m);
+        m.awakeThisCycle = false;
 
         $.each(hhtd.trains, function(j, t) {
 
             var xdiff = Math.abs(m.x - t.x);
             var ydiff = Math.abs(m.y - t.y);
 
-//            console.log("xdiff " + xdiff + " ydiff " + ydiff);
-//            console.log("monster: " + i + " distance: " + (xdiff + ydiff));
-
             if (xdiff + ydiff < 2) {
 
-                if (t.health > 0) {
-
-                    t.health -= 2;
-                }
+                m.scare(t);
             }
         });
+
+        if (m.awakeThisCycle == false) {
+            m.descare();
+        }
+
+        $(cell).removeClass("frame-0");
+        $(cell).removeClass("frame-1");
+        $(cell).removeClass("frame-2");
+        $(cell).removeClass("frame-3");
+
+        var cell = $(".cell[x=" + m.x + "][y=" + m.y + "] div");
+        $(cell).addClass("frame-" + m.awakeningFrame);
     });
 }
 
@@ -287,6 +320,10 @@ hhtd.updateUI = function() {
         $(".train-ui:last").css("background-color", t.color);
         $(".train-ui:last .train-health").css("width", (176 / 100) * t.health);
 
+        if (t.health < 20) {
+
+            $(".train-ui:last .passenger").addClass("scared-bad");
+        } else
         if (t.health < 80) {
 
             $(".train-ui:last .passenger").addClass("scared");

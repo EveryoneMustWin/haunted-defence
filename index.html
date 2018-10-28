@@ -128,22 +128,67 @@ a:visited {
     margin-top: 12px;
 }
 
-.zombie-1 {
+.zombie {
     width: 40px;
     height: 40px;
-    background-image:url(zombie.png);
 }
 
-.vampire-1 {
-    width: 40px;
-    height: 40px;
-    background-image:url(vampire.png);
+.zombie.frame-0 {
+    background:url(zombie.png);
 }
 
-.ghost-1 {
+.zombie.frame-1 {
+    background:url(zombie.png) -40px 0px;
+}
+
+.zombie.frame-2 {
+    background:url(zombie.png) -80px 0px;
+}
+
+.zombie.frame-3 {
+    background:url(zombie.png) -120px 0px;
+}
+
+.vampire {
     width: 40px;
     height: 40px;
-    background-image:url(ghost.png);
+}
+
+.vampire.frame-0 {
+    background:url(vampire.png);
+}
+
+.vampire.frame-1 {
+    background:url(vampire.png) -40px 0px;
+}
+
+.vampire.frame-2 {
+    background:url(vampire.png) -80px 0px;
+}
+
+.vampire.frame-3 {
+    background:url(vampire.png) -120px 0px;
+}
+
+.ghost {
+    width: 40px;
+    height: 40px;
+}
+
+.ghost.frame-0 {
+    background:url(ghost.png);
+}
+
+.ghost.frame-1 {
+    background:url(ghost.png) -40px 0px;
+}
+
+.ghost.frame-2 {
+    background:url(ghost.png) -80px 0px;
+}
+
+.ghost.frame-3 {
+    background:url(ghost.png) -120px 0px;
 }
 
 .train {
@@ -236,6 +281,10 @@ a:visited {
 
 .scared {
     background:url(passengers.png) -60px 0px;
+}
+
+.scared-bad {
+    background:url(passengers.png) -40px -20px;
 }
 
 .train-health-bg {

@@ -12,7 +12,7 @@ var clickHandler = {
 
         hhtd.layout[y][x] = hhtd.activeShopItem;
         var newElem = document.createElement("div");
-        var itemClass = hhtd.activeShopItem.toLowerCase() + "-1";
+        var itemClass = hhtd.activeShopItem.toLowerCase() + " frame-0";
         newElem.className = itemClass;
         this.appendChild(newElem);
     },
