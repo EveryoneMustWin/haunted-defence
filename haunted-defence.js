@@ -6,6 +6,7 @@ var hhtd = {
     time: 0,
     unit: 40,
     money: 400,
+    round: 1,
     activeShopItem: "zombie",
     layout: [
         ["", "", "", "", "", "", "", "", "", ""],
@@ -27,22 +28,26 @@ var masterSchedule = [{
     time: 20,
     passengers: 2,
     name: "Alfred",
-    color: "#40da32"
+    rgb: "#40da32",
+    color: "green"
 }, {
     time: 100,
     passengers: 2,
     name: "Bill",
-    color: "#b06a42"
+    rgb: "#b06a42",
+    color: "red"
 }, {
     time: 220,
     passengers: 2,
     name: "Chris",
-    color: "#a4ba52"
+    rgb: "#a4ba52",
+    color: "yellow"
 }, {
     time: 320,
     passengers: 2,
     name: "Derek",
-    color: "#549ac2"
+    rgb: "#549ac2",
+    color: "blue"
 }]
 
 hhtd.init = function() {
@@ -55,6 +60,7 @@ hhtd.init = function() {
 hhtd.startShop = function() {
 
     hhtd.state = "shop";
+    hhtd.time = 0;
 
     $("#train-sequencer").addClass("hide");
 
@@ -62,21 +68,21 @@ hhtd.startShop = function() {
 
     $(".shop-item").removeClass("hide");
 
+    $(".shop-item").off("click");
     $(".shop-item").click(clickHandler.shopItemClick);
 
     // Initialise display for current shop item
     $(".shop-item-" + hhtd.activeShopItem).click();
 
-    $("#right-side").append("<div id='start-round'>Start round</div>");
+    $("#round-number").html("Round " + hhtd.round + "</div>");
 
+    $("#start-round").off("click");
     $("#start-round").click(function() {
         hhtd.startRound();
         $("#currency-container").addClass("hide");
-        $("#start-round").remove();
 
         $("#train-sequencer").removeClass("hide");
     });
-
 }
 
 hhtd.startRound = function() {
@@ -270,16 +276,6 @@ hhtd.AddMonster = function(m) {
 hhtd.timer = function() {
     hhtd.time++;
 
-    if (hhtd.time % 2 == 0) {
-
-        var c = Math.random() * 140;
-        var rgba = "rgba(" + (60 + (c/8)) + ", " + (100 + (c/4)) + ", " + (60 + (c/7)) + ", 0.8)";
-
-        // console.log(rgba);
-
-        $("#title").css("color", rgba);
-    }
-
 //    console.log("timer (" + hhtd.time + ") moving trains");
 
     hhtd.moveTrains();
@@ -290,6 +286,8 @@ hhtd.timer = function() {
 
         console.log("level finished");
         clearInterval(hhtd.trainTimer);
+
+        hhtd.round++;
         hhtd.startShop();
     }
 }
@@ -324,7 +322,12 @@ hhtd.moveTrains = function() {
             // $(".train:last").css("top", ((hhtd.unit/2) - 8 + (c.y * hhtd.unit) + o.y) + "px");
             $(".train:last").css("left", ( (hhtd.unit/2) - 22 + (c.x * hhtd.unit) + o.x) + "px");
             $(".train:last").css("top", ( (hhtd.unit/2) - 22 + (c.y * hhtd.unit) + o.y) + "px");
-            $(".train-ob:last").css("background-color", t.color);
+
+            // $(".train-ob:last").css("background-color", t.color);
+            console.log("adding class to train: " + t.color);
+            $(".train-ob:last").addClass(t.color);
+
+            $(".train-ob:last").addClass(c.orientation);
 
             // Cache the cel position in the train so it knows which monsters it is near to
             t.x = c.x;
@@ -401,7 +404,8 @@ hhtd.moveTrains = function() {
             hhtd.AddTrain({
                 passengers: newTrain.passengers,
                 name: newTrain.name,
-                color: newTrain.color
+                color: newTrain.color,
+                rgb: newTrain.rgb
             });
         }
     }
@@ -450,7 +454,7 @@ hhtd.updateUI = function() {
 
             $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div><div class='train-health-caption'>Shock</div><div class='train-health-bg'><div class='train-shock'></div></div><div class='train-health-caption'>Disgust</div><div class='train-health-bg'><div class='train-disgust'></div></div></div>");
 
-            $(".train-ui:last").css("background-color", t.color);
+            $(".train-ui:last").css("background-color", t.rgb);
             $(".train-ui:last .train-shock").css("width", (176 / t.maxBarValue) * t.shock);
             $(".train-ui:last .train-disgust").css("width", (176 / t.maxBarValue) * t.disgust);
 
@@ -458,13 +462,13 @@ hhtd.updateUI = function() {
 
             $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div><div class='train-score'>$" + t.score + "</div></div>");
 
-            $(".train-ui:last").css("background-color", t.color);
+            $(".train-ui:last").css("background-color", t.rgb);
 
         } else {
 
             $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div></div>");
 
-            $(".train-ui:last").css("background-color", t.color);
+            $(".train-ui:last").css("background-color", t.rgb);
         }
 
         if (t.shock >= t.thresholdValue) {
@@ -623,32 +627,32 @@ hhtd.leftToBottom = function(t) {
 
 
 hhtd.route = [
-    { x: 5, y: 8, helper: hhtd.leftToRight },
-    { x: 6, y: 8, helper: hhtd.leftToTop },
-    { x: 6, y: 7, helper: hhtd.bottomToTop },
-    { x: 6, y: 6, helper: hhtd.bottomToRight },
-    { x: 7, y: 6, helper: hhtd.leftToRight },
-    { x: 8, y: 6, helper: hhtd.leftToTop },
-    { x: 8, y: 5, helper: hhtd.bottomToTop }, 
-    { x: 8, y: 4, helper: hhtd.bottomToTop }, 
-    { x: 8, y: 3, helper: hhtd.bottomToTop }, 
-    { x: 8, y: 2, helper: hhtd.bottomToTop }, 
-    { x: 8, y: 1, helper: hhtd.bottomToLeft }, 
-    { x: 7, y: 1, helper: hhtd.rightToLeft }, 
-    { x: 6, y: 1, helper: hhtd.rightToLeft }, 
-    { x: 5, y: 1, helper: hhtd.rightToLeft }, 
-    { x: 4, y: 1, helper: hhtd.rightToLeft }, 
-    { x: 3, y: 1, helper: hhtd.rightToLeft }, 
-    { x: 2, y: 1, helper: hhtd.rightToLeft }, 
-    { x: 1, y: 1, helper: hhtd.rightToBottom }, 
-    { x: 1, y: 2, helper: hhtd.topToBottom }, 
-    { x: 1, y: 3, helper: hhtd.topToBottom }, 
-    { x: 1, y: 4, helper: hhtd.topToBottom }, 
-    { x: 1, y: 5, helper: hhtd.topToBottom }, 
-    { x: 1, y: 6, helper: hhtd.topToRight }, 
-    { x: 2, y: 6, helper: hhtd.leftToRight }, 
-    { x: 3, y: 6, helper: hhtd.leftToBottom }, 
-    { x: 3, y: 7, helper: hhtd.topToBottom }, 
-    { x: 3, y: 8, helper: hhtd.topToRight }, 
-    { x: 4, y: 8, helper: hhtd.leftToRight }
+    { x: 5, y: 8, orientation: "right", helper: hhtd.leftToRight },
+    { x: 6, y: 8, orientation: "right", helper: hhtd.leftToTop },
+    { x: 6, y: 7, orientation: "up", helper: hhtd.bottomToTop },
+    { x: 6, y: 6, orientation: "up", helper: hhtd.bottomToRight },
+    { x: 7, y: 6, orientation: "right", helper: hhtd.leftToRight },
+    { x: 8, y: 6, orientation: "right", helper: hhtd.leftToTop },
+    { x: 8, y: 5, orientation: "up", helper: hhtd.bottomToTop }, 
+    { x: 8, y: 4, orientation: "up", helper: hhtd.bottomToTop }, 
+    { x: 8, y: 3, orientation: "up", helper: hhtd.bottomToTop }, 
+    { x: 8, y: 2, orientation: "up", helper: hhtd.bottomToTop }, 
+    { x: 8, y: 1, orientation: "up", helper: hhtd.bottomToLeft }, 
+    { x: 7, y: 1, orientation: "left", helper: hhtd.rightToLeft }, 
+    { x: 6, y: 1, orientation: "left", helper: hhtd.rightToLeft }, 
+    { x: 5, y: 1, orientation: "left", helper: hhtd.rightToLeft }, 
+    { x: 4, y: 1, orientation: "left", helper: hhtd.rightToLeft }, 
+    { x: 3, y: 1, orientation: "left", helper: hhtd.rightToLeft }, 
+    { x: 2, y: 1, orientation: "left", helper: hhtd.rightToLeft }, 
+    { x: 1, y: 1, orientation: "left", helper: hhtd.rightToBottom }, 
+    { x: 1, y: 2, orientation: "down", helper: hhtd.topToBottom }, 
+    { x: 1, y: 3, orientation: "down", helper: hhtd.topToBottom }, 
+    { x: 1, y: 4, orientation: "down", helper: hhtd.topToBottom }, 
+    { x: 1, y: 5, orientation: "down", helper: hhtd.topToBottom }, 
+    { x: 1, y: 6, orientation: "down", helper: hhtd.topToRight }, 
+    { x: 2, y: 6, orientation: "right", helper: hhtd.leftToRight }, 
+    { x: 3, y: 6, orientation: "right", helper: hhtd.leftToBottom }, 
+    { x: 3, y: 7, orientation: "down", helper: hhtd.topToBottom }, 
+    { x: 3, y: 8, orientation: "down", helper: hhtd.topToRight }, 
+    { x: 4, y: 8, orientation: "right", helper: hhtd.leftToRight }
 ];

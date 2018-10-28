@@ -50,6 +50,7 @@ a:visited {
     top: 80px;
     width: 600px;
     height: 480px;
+    background-image:url("trees.png");
     background-color: #222;
     text-align: center;
     overflow: hidden;
@@ -205,12 +206,76 @@ a:visited {
 }
 
 .train-ob {
-    margin-left: -8px;
-    margin-top: -8px;
-    width: 20px;
-    height: 20px;
+    margin-left: -16px;
+    margin-top: -16px;
+    width: 40px;
+    height: 40px;
     background-color: #f00;
     border-radius: 4px;
+}
+
+.train-ob.blue.up {
+    background:url(carriages.png) 0px 0px;
+}
+
+.train-ob.blue.down {
+    background:url(carriages.png) -40px 0px;
+}
+
+.train-ob.blue.right {
+    background:url(carriages.png) -80px 0px;
+}
+
+.train-ob.blue.left {
+    background:url(carriages.png) -120px 0px;
+}
+
+.train-ob.red.up {
+    background:url(carriages.png) 0px -40px;
+}
+
+.train-ob.red.down {
+    background:url(carriages.png) -40px -40px;
+}
+
+.train-ob.red.right {
+    background:url(carriages.png) -80px -40px;
+}
+
+.train-ob.red.left {
+    background:url(carriages.png) -120px -40px;
+}
+
+.train-ob.green.up {
+    background:url(carriages.png) 0px -80px;
+}
+
+.train-ob.green.down {
+    background:url(carriages.png) -40px -80px;
+}
+
+.train-ob.green.right {
+    background:url(carriages.png) -80px -80px;
+}
+
+.train-ob.green.left {
+    background:url(carriages.png) -120px -80px;
+}
+
+.train-ob.yellow.up {
+    background:url(carriages.png) 0px -120px;
+}
+
+.train-ob.yellow.down {
+    background:url(carriages.png) -40px -120px;
+}
+
+.train-ob.yellow.right {
+    background:url(carriages.png) -80px -120px;
+}
+
+.train-ob.yellow.left {
+    background:url(carriages.png) -120px -120px;
 }
 
 .hide {
@@ -289,8 +354,19 @@ a:visited {
     text-align: right;
 }
 
+#round-number {
+    margin-top: 160px;
+    margin-left: 30px;
+    width: 140px;
+    height: 30px;
+    padding-top: 8px;
+    border-radius: 4px;
+    color: #3d3;
+    font-size: 18px;
+}
+
 #start-round {
-    margin-top: 180px;
+    margin-top: 10px;
     margin-left: 40px;
     width: 120px;
     height: 30px;
@@ -458,6 +534,8 @@ $().ready(function() {
                 </div>
             </div>
         </div>
+        <div id='round-number'></div>
+        <div id='start-round'>Start round</div>
     </div>
 
     <div id="splash-container">
