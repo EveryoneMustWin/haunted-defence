@@ -171,7 +171,6 @@ hhtd.AddMonster = function(m) {
         m.awakeThisCycle = true;
 
         if (m.awakening < 12) {
-            console.log(m.awakening);
             m.awakening++;
 
             m.awakeningFrame = 1 + Math.floor(m.awakening / 6);
@@ -183,12 +182,27 @@ hhtd.AddMonster = function(m) {
 
             m.awakeningFrame = 3;
         }
+
+//        console.log("scared to: " + m.awakening);
     }
 
     m.descare = function() {
-        if (m.awakeningFrame > 0) {
-            m.awakeningFrame--;
+        if (m.awakening >= 12) {
+
+            m.awakeningFrame = 3;
+            m.awakening--;
+
+        } else if (m.awakening > 0) {
+            m.awakeningFrame = 1 + Math.floor(m.awakening / 6);
+            m.awakening--;
+
+        } else {
+
+            m.awakeningFrame = 0;
         }
+
+        // console.log("descared to: " + m.awakening);
+        // console.log("descared frame: " + m.awakeningFrame);
     }
 
     hhtd.monsters.push(m);
@@ -305,12 +319,14 @@ hhtd.checkMonsters = function() {
             m.descare();
         }
 
+        var cell = $(".cell[x=" + m.x + "][y=" + m.y + "] div");
+
         $(cell).removeClass("frame-0");
         $(cell).removeClass("frame-1");
         $(cell).removeClass("frame-2");
         $(cell).removeClass("frame-3");
 
-        var cell = $(".cell[x=" + m.x + "][y=" + m.y + "] div");
+        // console.log("f: " + m.awakeningFrame);
         $(cell).addClass("frame-" + m.awakeningFrame);
     });
 }
