@@ -14,7 +14,7 @@ monsters = {
     "vampire": {
         "cost": 150,
         "description": "A fiendish Vampire that can both DISGUST and give a FRIGHT!",
-        "shock": 0.5,
-        "disgust": 0.5
+        "shock": 0.75,
+        "disgust": 0.75
     }
 };
