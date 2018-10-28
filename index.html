@@ -257,24 +257,26 @@ a:visited {
     padding-top: 48px;
 }
 
-.shop-bar-icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
+#shop-shock-factor-value {
+    display: table-cell;
+    text-align: right;
 }
 
-.shop-bar {
-    height: 20px;
-    width: 100px;
-    display: inline-block;
-    border: 1px solid black;
-    color: #302442;
+#shop-disgust-factor-value {
+    display: table-cell;
+    text-align: right;
+}
+
+.table {
+    display: table;
+    width: 80%;
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .currency-container {
     display: table;
-    width: 100%;
-    padding: 1px;
+    width: 80%;
 }
 
 .currency-label {
@@ -432,7 +434,7 @@ $().ready(function() {
     <div id="right-side">
         <div id="train-sequencer">
         </div>
-        <div class="currency-container">
+        <div class="currency-container table">
             <span class="currency-label">Money: $</span>
             <span id="currency-display"></span>
         </div>
@@ -446,11 +448,11 @@ $().ready(function() {
                 <div>
                     <span>$</span><span id="shop-cost"></span>
                 </div>
-                <div>
-                    <span class="shop-bar-icon excess-shock"></span><span class="shop-bar"></span>
+                <div class="table">
+                    <span class="currency-label">SCARE:</span><span id="shop-shock-factor-value">?</span>
                 </div>
-                <div>
-                    <span class="shop-bar-icon excess-disgust"></span><span class="shop-bar"></span>
+                <div class="table">
+                    <span class="currency-label">DISGUST:</span><span id="shop-disgust-factor-value">?</span>
                 </div>
                 <div id="shop-description">
                 </div>
