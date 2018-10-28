@@ -236,40 +236,38 @@ hhtd.rebuildGrid = function() {
 
         for (var x = 0; x < hhtd.width; x++) {
 
+            rowHtml += "<div class='cell' x='" + x + "' y='" + y + "' >"
             if (hhtd.layout[y][x] == "|") {
 
-                rowHtml += "<div class='cell'><div class='v-track'></div></div>";
+                rowHtml += "<div class='v-track'></div>";
 
             }
             else if (hhtd.layout[y][x] == "-") {
 
-                rowHtml += "<div class='cell'><div class='h-track'></div></div>";
+                rowHtml += "<div class='h-track'></div>";
             }
             else if (hhtd.layout[y][x] == ".") {
 
-                rowHtml += "<div class='cell'><div class='junction'></div></div>";
+                rowHtml += "<div class='junction'></div>";
             }
             else if (hhtd.layout[y][x] == "Zombie") {
 
-                rowHtml += "<div class='cell'><div class='zombie-1'></div></div>";
+                rowHtml += "<div class='zombie-1'></div>";
             }
             else if (hhtd.layout[y][x] == "Vampire") {
 
-                rowHtml += "<div class='cell'><div class='vampire-1'></div></div>";
+                rowHtml += "<div class='vampire-1'></div>";
             }
             else if (hhtd.layout[y][x] == "Ghost") {
 
-                rowHtml += "<div class='cell'><div class='ghost-1'></div></div>";
+                rowHtml += "<div class='ghost-1'></div>";
             }
             else if (hhtd.layout[y][x]) {
 
 //                console.log("layout text exists " + hhtd.layout[y][x]);
-                rowHtml += "<div class='cell'><div class='word'>" + hhtd.layout[y][x] + "</div></div>";
+                rowHtml += "<div class='word'>" + hhtd.layout[y][x] + "</div>";
             }
-            else {
-
-                rowHtml += "<div class='cell'></div>";
-            }
+            rowHtml += "</div>";
         }
 
         rowHtml += "</div>";
@@ -382,4 +380,8 @@ hhtd.setActiveShopItem = function(item) {
     $(".shop-item-" + item).addClass("shop-item-selected");
     this.activeShopItem = item;
     console.log("Active shop item:", this.activeShopItem);
+}
+
+hhtd.isCellOccupied = function(elem) {
+    return elem.children.length > 0;
 }
