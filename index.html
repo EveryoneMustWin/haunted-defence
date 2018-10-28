@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Haunted Defence</title>
+<title>Ghost Train</title>
 <style>
 
 body,
@@ -216,10 +216,6 @@ a:visited {
     border: 1px solid black;
 }
 
-#shop-item-container {
-    height: 50px;
-}
-
 .shop-item {
     float: left;
     width: 40px;
@@ -245,30 +241,10 @@ a:visited {
     border: 2px solid white;
 }
 
-#shop-description {
-    padding: 1px;
-}
-
-.currency-container {
-    display: table;
-    width: 100%;
-    padding: 1px;
-}
-
-.currency-label {
-    display: table-cell;
-    text-align: left;
-}
-
-#currency-display {
-    display: table-cell;
-    text-align: right;
-}
-
 #start-round {
     margin-top: 180px;
-    margin-left: 50px;
-    width: 100px;
+    margin-left: 40px;
+    width: 120px;
     height: 30px;
     padding-top: 8px;
     border-radius: 4px;
@@ -279,16 +255,16 @@ a:visited {
 #train-sequencer {
     position: absolute;
     left: 0px;
-    top: 0px;
+    top: 36px;
     width: 200px;
-    height: 480px;
+    height: 444px;
     background-color: #2d4818;
 }
 
 .train-ui {
     float: bottom;
     width: 190px;
-    height: 50px;
+    height: 106px;
     margin: 5px;
     background-color: #999;
 }
@@ -303,30 +279,55 @@ a:visited {
     margin-top: 8px;
 }
 
-.scared {
+.excess-shock {
     background:url(passengers.png) -60px 0px;
 }
 
-.scared-bad {
-    background:url(passengers.png) -40px -20px;
+.excess-disgust {
+    background:url(passengers.png) -80px 0px;
 }
 
 .train-health-bg {
     float: left;
     width: 180px;
     height: 14px;
-    background-color: #222;
+    background:url(health-bg.png);
     margin-top: 4px;
     margin-left: 5px;
 }
 
-.train-health {
+.train-health-caption {
+    float: left;
+    width: 80px;
+    height: 14px;
+    margin-top: 4px;
+}
+
+.train-shock {
     float: left;
     width: 170px;
     height: 10px;
     background-color: #dfd;
     margin-top: 2px;
     margin-left: 2px;
+}
+
+.train-disgust {
+    float: left;
+    width: 170px;
+    height: 10px;
+    background-color: #dfd;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+.train-score {
+    float: left;
+    width: 80px;
+    height: 18px;
+    margin-top: 14px;
+    margin-left: 56px;
+    font-size: 24px;
 }
 
 </style>
@@ -348,7 +349,7 @@ $().ready(function() {
 </head>
 <body>
 	<div id="menu">
-		<div id="title">Haunted House Tower Defence</div>
+		<div id="title">Ghost Train</div>
 	</div>
 
 	<div id="container">

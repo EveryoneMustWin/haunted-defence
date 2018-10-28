@@ -79,7 +79,7 @@ hhtd.startRound = function() {
     console.log(hhtd.monsters);
 
     $(".shop-item").hide();
-    setInterval(hhtd.timer, 100);
+    setInterval(hhtd.timer, 50);
 }
 
 hhtd.rebuildGrid = function() {
@@ -157,6 +157,17 @@ hhtd.rebuildGrid = function() {
 }
 
 hhtd.AddTrain = function(t) {
+
+    t.maxBarValue = 40;
+    t.thresholdValue = 36;
+
+    t.shock = 0;
+    t.disgust = 0;
+    t.time = 0;
+    t.celltime = 0;
+    t.cellprogress = 0;
+    t.scoringTime = 0;
+
     hhtd.trains.push(t);
 }
 
@@ -164,6 +175,16 @@ hhtd.AddMonster = function(m) {
 
     m.awakening = 0;
     m.awakeningFrame = 0;
+
+    if (monsters[m.type]) {
+
+        m.shock = monsters[m.type].shock;
+        m.disgust = monsters[m.type].disgust;
+    }
+    else {
+        console.log("serious error, monster type not recognised");
+        return;
+    }
 
     m.scare = function(t) {
 
@@ -175,8 +196,20 @@ hhtd.AddMonster = function(m) {
             m.awakeningFrame = 1 + Math.floor(m.awakening / 6);
         } else {
 
-            if (t.health > 0) {
-                t.health -= 2;
+            if (m.shock) {
+
+                if (t.shock < t.maxBarValue) {
+                    t.shock += m.shock;
+                    console.log("t.shock up to " + t.shock);
+                }
+            }
+
+            if (m.disgust) {
+
+                if (t.disgust < t.maxBarValue) {
+                    t.disgust += m.disgust;
+                    console.log("t.disgust up to " + t.disgust);
+                }
             }
 
             m.awakeningFrame = 3;
@@ -262,6 +295,51 @@ hhtd.moveTrains = function() {
             t.y = c.y;
 
             survivors.push(t);
+        } else {
+
+            if (t.scoringTime == 0) {
+
+                t.score = 0;
+
+                if (t.shock > 10) {
+
+                    t.score += 10;
+                }
+
+                if (t.shock > 20) {
+
+                    t.score += 15;
+                }
+
+                if (t.disgust > 10) {
+
+                    t.score += 10;
+                }
+
+                if (t.disgust > 20) {
+
+                    t.score += 15;
+                }
+
+                if (t.shock > t.thresholdValue) {
+                    t.score = 0;
+                }
+
+                if (t.disgust > t.thresholdValue) {
+                    t.score = 0;
+                }
+            }
+
+            if (t.scoringTime < 100) {
+
+                survivors.push(t);
+
+                t.scoringTime++;
+            } else {
+
+                hhtd.money += t.score;
+                $("#currency-display").text(hhtd.money);
+            }
         }
 
         t.time++;
@@ -287,11 +365,7 @@ hhtd.moveTrains = function() {
             hhtd.AddTrain({
                 passengers: newTrain.passengers,
                 name: newTrain.name,
-                color: newTrain.color,
-                health: 100,
-                time: 0,
-                celltime: 0,
-                cellprogress: 0
+                color: newTrain.color
             });
         }
     }
@@ -335,18 +409,36 @@ hhtd.updateUI = function() {
     $("#train-sequencer").html("");
 
     $.each(hhtd.trains, function(i, t) {
-        $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div><div class='train-health-bg'><div class='train-health'></div></div></div>");
 
-        $(".train-ui:last").css("background-color", t.color);
-        $(".train-ui:last .train-health").css("width", (176 / 100) * t.health);
+        if (t.scoringTime == 0) {
 
-        if (t.health < 20) {
+            $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div><div class='train-health-caption'>Shock</div><div class='train-health-bg'><div class='train-shock'></div></div><div class='train-health-caption'>Disgust</div><div class='train-health-bg'><div class='train-disgust'></div></div></div>");
 
-            $(".train-ui:last .passenger").addClass("scared-bad");
-        } else
-        if (t.health < 80) {
+            $(".train-ui:last").css("background-color", t.color);
+            $(".train-ui:last .train-shock").css("width", (176 / t.maxBarValue) * t.shock);
+            $(".train-ui:last .train-disgust").css("width", (176 / t.maxBarValue) * t.disgust);
 
-            $(".train-ui:last .passenger").addClass("scared");
+        } else if ((t.scoringTime / 10) % 5 >= 2) {
+
+            $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div><div class='train-score'>$" + t.score + "</div></div>");
+
+            $(".train-ui:last").css("background-color", t.color);
+
+        } else {
+
+            $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div></div>");
+
+            $(".train-ui:last").css("background-color", t.color);
+        }
+
+        if (t.shock >= t.thresholdValue) {
+
+            $(".train-ui:last .passenger").addClass("excess-shock");
+        }
+
+        if (t.disgust >= t.thresholdValue) {
+
+            $(".train-ui:last .passenger").addClass("excess-disgust");
         }
     });
 }
