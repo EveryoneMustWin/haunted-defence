@@ -20,28 +20,30 @@ var hhtd = {
         ["", "", "", "", "", "", "", "", "", ""]
     ],
     trains: [],
-    schedule: [{
-        time: 20,
-        passengers: 2,
-        name: "Alfred",
-        color: "#40da32"
-    }, {
-        time: 100,
-        passengers: 2,
-        name: "Bill",
-        color: "#b06a42"
-    }, {
-        time: 220,
-        passengers: 2,
-        name: "Chris",
-        color: "#a4ba52"
-    }, {
-        time: 320,
-        passengers: 2,
-        name: "Derek",
-        color: "#549ac2"
-    }]
+    schedule: []
 }
+
+var masterSchedule = [{
+    time: 20,
+    passengers: 2,
+    name: "Alfred",
+    color: "#40da32"
+}, {
+    time: 100,
+    passengers: 2,
+    name: "Bill",
+    color: "#b06a42"
+}, {
+    time: 220,
+    passengers: 2,
+    name: "Chris",
+    color: "#a4ba52"
+}, {
+    time: 320,
+    passengers: 2,
+    name: "Derek",
+    color: "#549ac2"
+}]
 
 hhtd.init = function() {
 
@@ -52,9 +54,13 @@ hhtd.init = function() {
 
 hhtd.startShop = function() {
 
+    hhtd.state = "shop";
+
     $("#train-sequencer").addClass("hide");
 
     hhtd.rebuildGrid();
+
+    $(".shop-item").removeClass("hide");
 
     $(".shop-item").click(clickHandler.shopItemClick);
 
@@ -75,11 +81,19 @@ hhtd.startShop = function() {
 
 hhtd.startRound = function() {
 
+    hhtd.state = "round";
+    hhtd.time = 0;
+
+    console.log("masterSchedule");
+    console.log(masterSchedule);
+    hhtd.schedule = $.extend(true, [], masterSchedule);
+
+    console.log("hhtd.schedule");
+    console.log(hhtd.schedule);
+
     hhtd.rebuildGrid();
 
-    console.log(hhtd.monsters);
-
-    $(".shop-item").hide();
+    $(".shop-item").addClass("hide");
     hhtd.trainTimer = setInterval(hhtd.timer, 50);
 }
 
@@ -116,30 +130,42 @@ hhtd.rebuildGrid = function() {
             }
             else if (hhtd.layout[y][x] == "zombie") {
 
-                rowHtml += "<div class='zombie'></div>";
-                hhtd.AddMonster({
-                    x: x,
-                    y: y,
-                    type: "zombie"
-                });
+                rowHtml += "<div class='zombie frame-0'></div>";
+
+                if (hhtd.state == "round") {
+
+                    hhtd.AddMonster({
+                        x: x,
+                        y: y,
+                        type: "zombie"
+                    });
+                }
             }
             else if (hhtd.layout[y][x] == "vampire") {
 
-                rowHtml += "<div class='vampire'></div>";
-                hhtd.AddMonster({
-                    x: x,
-                    y: y,
-                    type: "vampire"
-                });
+                rowHtml += "<div class='vampire frame-0'></div>";
+
+                if (hhtd.state == "round") {
+
+                    hhtd.AddMonster({
+                        x: x,
+                        y: y,
+                        type: "vampire"
+                    });
+                }
             }
             else if (hhtd.layout[y][x] == "ghost") {
 
-                rowHtml += "<div class='ghost'></div>";
-                hhtd.AddMonster({
-                    x: x,
-                    y: y,
-                    type: "ghost"
-                });
+                rowHtml += "<div class='ghost frame-0'></div>";
+
+                if (hhtd.state == "round") {
+
+                    hhtd.AddMonster({
+                        x: x,
+                        y: y,
+                        type: "ghost"
+                    });
+                }
             }
             else if (hhtd.layout[y][x]) {
 
@@ -253,6 +279,8 @@ hhtd.timer = function() {
 
         $("#title").css("color", rgba);
     }
+
+//    console.log("timer (" + hhtd.time + ") moving trains");
 
     hhtd.moveTrains();
     hhtd.checkMonsters();
