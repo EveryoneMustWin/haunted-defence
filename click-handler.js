@@ -1,15 +1,19 @@
 
 var clickHandler = {
     onClick: function (elem) {
-        var monster = monsters[hhtd.activeShopItem];
-        if(!hhtd.decrementMoney(monster.cost))
+        if(hhtd.state != "shop")
             return;
 
-        if(hhtd.isCellOccupied(this))
-            return;
+        var monster = monsters[hhtd.activeShopItem];
 
         x = this.getAttribute("x");
         y = this.getAttribute("y");
+
+        if(hhtd.isCellOccupied(x,y))
+            return;
+
+        if(!hhtd.decrementMoney(monster.cost))
+            return;
 
         hhtd.layout[y][x] = hhtd.activeShopItem;
         var newElem = document.createElement("div");

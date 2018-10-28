@@ -500,8 +500,8 @@ hhtd.setActiveShopItem = function(item) {
     console.log("Active shop item:", this.activeShopItem);
 }
 
-hhtd.isCellOccupied = function(elem) {
-    return elem.children.length > 0;
+hhtd.isCellOccupied = function(x, y) {
+    return hhtd.layout[y][x] != "";
 }
 
 
