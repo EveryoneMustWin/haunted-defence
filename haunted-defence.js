@@ -216,11 +216,13 @@ hhtd.startShop = function() {
 
         $("#train-sequencer").removeClass("hide");
     });
+
 }
 
 hhtd.startRound = function() {
 
     hhtd.rebuildGrid();
+    $(".shop-item").hide();
     setInterval(hhtd.timer, 100);
 }
 
@@ -276,7 +278,6 @@ hhtd.rebuildGrid = function() {
     }
 
     $(".cell").click(clickHandler.onClick);
-    $(".shop-item").hide();
 }
 
 hhtd.AddTrain = function(t) {
