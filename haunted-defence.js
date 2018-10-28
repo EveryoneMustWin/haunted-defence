@@ -342,7 +342,7 @@ hhtd.timer = function() {
     $("#train-sequencer").html("");
 
     $.each(hhtd.trains, function(i, t) {
-        $("#train-sequencer").append("<div class='train-ui'></div>");
+        $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div></div>");
         $(".train-ui:last").css("background-color", t.color);
     })
 
