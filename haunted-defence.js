@@ -6,7 +6,7 @@ var hhtd = {
     time: 0,
     unit: 40,
     money: 300,
-    activeShopItem: "none",
+    activeShopItem: "zombie",
     layout: [
         ["", "", "", "", "", "", "", "", "", ""],
         ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],
@@ -228,6 +228,9 @@ hhtd.startRound = function() {
 
 hhtd.rebuildGrid = function() {
 
+    console.log("> rebuilding the grid");
+    console.log(hhtd.layout);
+
     $("#tracks").html("");
 
     var rowHtml;
@@ -252,15 +255,15 @@ hhtd.rebuildGrid = function() {
 
                 rowHtml += "<div class='junction'></div>";
             }
-            else if (hhtd.layout[y][x] == "Zombie") {
+            else if (hhtd.layout[y][x] == "zombie") {
 
                 rowHtml += "<div class='zombie-1'></div>";
             }
-            else if (hhtd.layout[y][x] == "Vampire") {
+            else if (hhtd.layout[y][x] == "vampire") {
 
                 rowHtml += "<div class='vampire-1'></div>";
             }
-            else if (hhtd.layout[y][x] == "Ghost") {
+            else if (hhtd.layout[y][x] == "ghost") {
 
                 rowHtml += "<div class='ghost-1'></div>";
             }
@@ -342,15 +345,17 @@ hhtd.timer = function() {
     $("#train-sequencer").html("");
 
     $.each(hhtd.trains, function(i, t) {
-        $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div></div>");
+        $("#train-sequencer").append("<div class='train-ui'><div class='passenger p-1'></div><div class='passenger p-2'></div><div class='train-health-bg'></div><div class='train-health'></div></div>");
+
         $(".train-ui:last").css("background-color", t.color);
+        $(".train-ui:last .train-health").css("width", t.health);
     })
 
     if (hhtd.schedule.length > 0) {
 
         if (hhtd.time >= hhtd.schedule[0].time) {
 
-            console.log("all aboard! t = " + hhtd.time);
+            //console.log("all aboard! t = " + hhtd.time);
 
             var newTrain = hhtd.schedule.shift();
 
@@ -358,6 +363,7 @@ hhtd.timer = function() {
                 passengers: newTrain.passengers,
                 name: newTrain.name,
                 color: newTrain.color,
+                health: 100,
                 time: 0,
                 celltime: 0,
                 cellprogress: 0

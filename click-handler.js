@@ -10,7 +10,7 @@ var clickHandler = {
         x = this.getAttribute("x");
         y = this.getAttribute("y");
 
-        hhtd.layout[x,y] = hhtd.activeShopItem;
+        hhtd.layout[y][x] = hhtd.activeShopItem;
         var newElem = document.createElement("div");
         var itemClass = hhtd.activeShopItem.toLowerCase() + "-1";
         newElem.className = itemClass;
