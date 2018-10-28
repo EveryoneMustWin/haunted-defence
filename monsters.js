@@ -2,7 +2,7 @@ monsters = {
     "zombie": {
         "cost": 100,
         "description": "Raagh! A foul Zombie to DISGUST your guests!",
-        "scare": 0,
+        "shock": 0,
         "disgust": 1
     },
     "ghost": {

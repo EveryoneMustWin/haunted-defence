@@ -23,6 +23,8 @@ var clickHandler = {
         hhtd.setActiveShopItem(this.getAttribute("shopItem"));
         $("#shop-cost").text(monster.cost);
         $("#shop-description").text(monster.description);
+        $("#shop-shock-factor-value").text(monster.shock);
+        $("#shop-disgust-factor-value").text(monster.disgust);
 
     }
 }
