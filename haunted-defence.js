@@ -5,8 +5,9 @@ var hhtd = {
     height: 10,
     time: 0,
     unit: 40,
-    money: 300,
+    money: 400,
     activeShopItem: "zombie",
+    activeShopCost: 100,
     layout: [
         ["", "", "", "", "", "", "", "", "", ""],
         ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],
@@ -46,6 +47,7 @@ var hhtd = {
 hhtd.init = function() {
 
     $("#train-sequencer").addClass("hide");
+    $("#currency-display").text(this.money);
 
     hhtd.startShop();
 }
@@ -54,7 +56,10 @@ hhtd.startShop = function() {
 
     hhtd.rebuildGrid();
 
-    $(".shop-item").click(clickHandler.shopItemClick);    
+    $(".shop-item").click(clickHandler.shopItemClick);
+
+    // Initialise display for current shop item
+    $(".shop-item-" + hhtd.activeShopItem).click();
 
     $("#right-side").append("<div id='start-round'>Start round</div>");
 

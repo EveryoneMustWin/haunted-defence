@@ -216,6 +216,10 @@ a:visited {
     border: 1px solid black;
 }
 
+#shop-item-container {
+    height: 50px;
+}
+
 .shop-item {
     float: left;
     width: 40px;
@@ -239,6 +243,26 @@ a:visited {
 
 .shop-item-selected {
     border: 2px solid white;
+}
+
+#shop-description {
+    padding: 1px;
+}
+
+.currency-container {
+    display: table;
+    width: 100%;
+    padding: 1px;
+}
+
+.currency-label {
+    display: table-cell;
+    text-align: left;
+}
+
+#currency-display {
+    display: table-cell;
+    text-align: right;
 }
 
 #start-round {
@@ -335,16 +359,45 @@ $().ready(function() {
     <div id="right-side">
         <div id="train-sequencer">
         </div>
-        <div id="currency-container">
-            <span>$</span>
-            <span id="currency-display">300</span>
+        <div class="currency-container">
+            <div class="currency-label">Money: $</div>
+            <div id="currency-display"></div>
         </div>
+        <hr></hr>
         <div id="shop">
-            <div shopItem="zombie" class="shop-item shop-item-zombie shop-item-selected">
+            <div id="shop-item-container">
+                <div
+                    shopItem="zombie"
+                    shopDescription="Raagh! A foul Zombie to DISGUST your guests!"
+                    shopDisgust="1"
+                    shopFrighten="0"
+                    shopCost="100"
+                    class="shop-item shop-item-zombie shop-item-selected">
+                </div>
+                <div
+                    shopItem="vampire"
+                    shopDescription="A fiendish Vampire that can both DISGUST and give a FRIGHT!"
+                    shopDisgust="0.5"
+                    shopFrighten="0.5"
+                    shopCost="150"
+                    class="shop-item shop-item-vampire">
+                </div>
+                <div
+                    shopItem="ghost"
+                    shopDescription="WooOOoo! A spooky Ghost to give your guests a FRIGHT!"
+                    shopDisgust="0"
+                    shopFrighten="1"
+                    shopCost="100"
+                    class="shop-item shop-item-ghost">
+                </div>
             </div>
-            <div shopItem="vampire" class="shop-item shop-item-vampire">
-            </div>
-            <div shopItem="ghost" class="shop-item shop-item-ghost">
+            <hr></hr>
+            <div id="shop-description-container">
+                <div>
+                    <span>$</span><span id="shop-cost"></span>
+                </div>
+                <div id="shop-description">
+                </div>
             </div>
         </div>
     </div>

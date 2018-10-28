@@ -1,7 +1,7 @@
 
 var clickHandler = {
     onClick: function (elem) {
-        if(!hhtd.decrementMoney(100))
+        if(!hhtd.decrementMoney(hhtd.activeShopCost))
             return;
 
         if(hhtd.isCellOccupied(this))
@@ -19,5 +19,8 @@ var clickHandler = {
 
     shopItemClick: function (elem) {
         hhtd.setActiveShopItem(this.getAttribute("shopItem"));
+        hhtd.activeShopCost = parseInt(this.getAttribute("shopCost"), 10);
+        $("#shop-cost").text(this.getAttribute("shopCost"));
+        $("#shop-description").text(this.getAttribute("shopDescription"));
     }
 }
