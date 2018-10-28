@@ -150,8 +150,17 @@ a:visited {
     position: absolute;
     width: 4px;
     height: 4px;
-    background-color: #40da32;
+    background-color: #fff;
     border-radius: 2px;
+}
+
+.train-ob {
+    margin-left: -8px;
+    margin-top: -8px;
+    width: 20px;
+    height: 20px;
+    background-color: #f00;
+    border-radius: 4px;
 }
 
 .hide {
@@ -217,12 +226,16 @@ a:visited {
 
 .passenger {
     float: left;
-    background-image:url(passengers.png);
+    background:url(passengers.png) 0px 0px;
     width: 20px;
     height: 20px;
     z-index: 2;
     margin-left: 50px;
     margin-top: 8px;
+}
+
+.scared {
+    background:url(passengers.png) -60px 0px;
 }
 
 .train-health-bg {
@@ -232,6 +245,15 @@ a:visited {
     background-color: #222;
     margin-top: 4px;
     margin-left: 5px;
+}
+
+.train-health {
+    float: left;
+    width: 170px;
+    height: 10px;
+    background-color: #dfd;
+    margin-top: 2px;
+    margin-left: 2px;
 }
 
 </style>
