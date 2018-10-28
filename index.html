@@ -33,9 +33,14 @@ a:visited {
 #title {
     width: 800px;
     height: 60px;
-    color: #5a7;
-    font-size: 46px;
-    text-align: center;
+}
+
+#title-header {
+    margin-left: 150px;
+    width: 480px;
+    height: 60px;
+    background-image:url(title-header.png);
+    background-repeat:no-repeat;
 }
 
 
@@ -349,7 +354,10 @@ $().ready(function() {
 </head>
 <body>
 	<div id="menu">
-		<div id="title">Ghost Train</div>
+		<div id="title">
+            <div id="title-header">
+            </div>
+        </div>
 	</div>
 
 	<div id="container">
