@@ -217,8 +217,11 @@ a:visited {
     display: none;
 }
 
-.shop {
-    border: 1px solid black;
+#shop {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 .shop-item {
@@ -244,6 +247,44 @@ a:visited {
 
 .shop-item-selected {
     border: 2px solid white;
+}
+
+#shop-description {
+    padding: 1px;
+}
+
+#shop-description-container {
+    padding-top: 48px;
+}
+
+.shop-bar-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.shop-bar {
+    height: 20px;
+    width: 100px;
+    display: inline-block;
+    border: 1px solid black;
+    color: #302442;
+}
+
+.currency-container {
+    display: table;
+    width: 100%;
+    padding: 1px;
+}
+
+.currency-label {
+    display: table-cell;
+    text-align: left;
+}
+
+#currency-display {
+    display: table-cell;
+    text-align: right;
 }
 
 #start-round {
@@ -392,20 +433,24 @@ $().ready(function() {
         <div id="train-sequencer">
         </div>
         <div class="currency-container">
-            <div class="currency-label">Money: $</div>
-            <div id="currency-display"></div>
+            <span class="currency-label">Money: $</span>
+            <span id="currency-display"></span>
         </div>
-        <hr></hr>
         <div id="shop">
             <div id="shop-item-container">
                 <div shopItem="zombie" class="shop-item shop-item-zombie shop-item-selected"></div>
                 <div shopItem="vampire" class="shop-item shop-item-vampire"></div>
                 <div shopItem="ghost" class="shop-item shop-item-ghost"></div>
             </div>
-            <hr></hr>
             <div id="shop-description-container">
                 <div>
                     <span>$</span><span id="shop-cost"></span>
+                </div>
+                <div>
+                    <span class="shop-bar-icon excess-shock"></span><span class="shop-bar"></span>
+                </div>
+                <div>
+                    <span class="shop-bar-icon excess-disgust"></span><span class="shop-bar"></span>
                 </div>
                 <div id="shop-description">
                 </div>
