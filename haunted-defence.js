@@ -45,13 +45,14 @@ var hhtd = {
 
 hhtd.init = function() {
 
-    $("#train-sequencer").addClass("hide");
     $("#currency-display").text(this.money);
 
     hhtd.startShop();
 }
 
 hhtd.startShop = function() {
+
+    $("#train-sequencer").addClass("hide");
 
     hhtd.rebuildGrid();
 
@@ -79,7 +80,7 @@ hhtd.startRound = function() {
     console.log(hhtd.monsters);
 
     $(".shop-item").hide();
-    setInterval(hhtd.timer, 50);
+    hhtd.trainTimer = setInterval(hhtd.timer, 50);
 }
 
 hhtd.rebuildGrid = function() {
@@ -200,7 +201,7 @@ hhtd.AddMonster = function(m) {
 
                 if (t.shock < t.maxBarValue) {
                     t.shock += m.shock;
-                    console.log("t.shock up to " + t.shock);
+//                    console.log("t.shock up to " + t.shock);
                 }
             }
 
@@ -208,7 +209,7 @@ hhtd.AddMonster = function(m) {
 
                 if (t.disgust < t.maxBarValue) {
                     t.disgust += m.disgust;
-                    console.log("t.disgust up to " + t.disgust);
+//                    console.log("t.disgust up to " + t.disgust);
                 }
             }
 
@@ -256,6 +257,13 @@ hhtd.timer = function() {
     hhtd.moveTrains();
     hhtd.checkMonsters();
     hhtd.updateUI();
+
+    if (hhtd.time > 1000) {
+
+        console.log("level finished");
+        clearInterval(hhtd.trainTimer);
+        hhtd.startShop();
+    }
 }
 
 hhtd.moveTrains = function() {
@@ -301,22 +309,22 @@ hhtd.moveTrains = function() {
 
                 t.score = 0;
 
-                if (t.shock > 10) {
+                if (t.shock > 20) {
 
                     t.score += 10;
                 }
 
-                if (t.shock > 20) {
+                if (t.shock > 25) {
 
                     t.score += 15;
                 }
 
-                if (t.disgust > 10) {
+                if (t.disgust > 20) {
 
                     t.score += 10;
                 }
 
-                if (t.disgust > 20) {
+                if (t.disgust > 25) {
 
                     t.score += 15;
                 }

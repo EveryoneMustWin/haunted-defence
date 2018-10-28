@@ -335,6 +335,24 @@ a:visited {
     font-size: 24px;
 }
 
+#splash-container {
+    position: absolute;
+    left: 34px;
+    top: 22px;
+    width: 800px;
+    height: 540px;
+    background-color: #222;
+}
+
+#splash-image {
+    position: absolute;
+    left: 130px;
+    top: 0px;
+    width: 540px;
+    height: 540px;
+    background-image:url(title-screen.png) ;
+}
+
 </style>
 
 <script src="jquery-1.10.2.min.js"></script>
@@ -346,7 +364,11 @@ a:visited {
 
 $().ready(function() {
 
-    hhtd.init();
+    $("#splash-container").click(function() {
+
+        $(this).remove();
+        hhtd.init();
+    })
 });
 
 </script>
@@ -388,6 +410,12 @@ $().ready(function() {
                 <div id="shop-description">
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="splash-container">
+
+        <div id="splash-image">
         </div>
     </div>
 </body>
