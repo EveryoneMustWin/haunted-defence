@@ -10,14 +10,14 @@ var hhtd = {
     activeShopItem: "zombie",
     layout: [
         ["", "", "", "", "", "", "", "", "", ""],
-        ["", ".", "-", "-", "-", "-", "-", "-", ".", ""],
+        ["", ".1", "-", "-", "-", "-", "-", "-", ".2", ""],
         ["", "|", "", "", "", "", "", "", "|", ""],
         ["", "|", "", "", "", "", "", "", "|", ""],
         ["", "|", "", "", "", "", "", "", "|", ""],
         ["", "|", "", "", "", "", "", "", "|", ""],
-        ["", ".", "-", ".", "", "", ".", "-", ".", ""],
-        ["", "", "", "|", "", "", "|", "", "", ""],
-        ["", "", "", ".", "END", "START", ".", "", "", ""],
+        ["", ".4", "-", ".2", "", "", ".1", "-", ".3", ""],
+        ["", "", "", "|", "spookyride", "", "|", "", "", ""],
+        ["", "", "", ".6", "end", "start", ".5", "", "", ""],
         ["", "", "", "", "", "", "", "", "", ""]
     ],
     trains: [],
@@ -121,7 +121,11 @@ hhtd.rebuildGrid = function() {
         for (var x = 0; x < hhtd.width; x++) {
 
             rowHtml += "<div class='cell' x='" + x + "' y='" + y + "' >"
-            if (hhtd.layout[y][x] == "|") {
+            if (hhtd.layout[y][x] == "spookyride") {
+
+                rowHtml += "<div class='spookyride'></div>";
+            }
+            else if (hhtd.layout[y][x] == "|") {
 
                 rowHtml += "<div class='v-track'></div>";
 
@@ -130,9 +134,29 @@ hhtd.rebuildGrid = function() {
 
                 rowHtml += "<div class='h-track'></div>";
             }
-            else if (hhtd.layout[y][x] == ".") {
+            else if (hhtd.layout[y][x] == ".1") {
 
-                rowHtml += "<div class='junction'></div>";
+                rowHtml += "<div class='junction-1'></div>";
+            }
+            else if (hhtd.layout[y][x] == ".2") {
+
+                rowHtml += "<div class='junction-2'></div>";
+            }
+            else if (hhtd.layout[y][x] == ".3") {
+
+                rowHtml += "<div class='junction-3'></div>";
+            }
+            else if (hhtd.layout[y][x] == ".4") {
+
+                rowHtml += "<div class='junction-4'></div>";
+            }
+            else if (hhtd.layout[y][x] == ".5") {
+
+                rowHtml += "<div class='junction-5'></div>";
+            }
+            else if (hhtd.layout[y][x] == ".6") {
+
+                rowHtml += "<div class='junction-6'></div>";
             }
             else if (hhtd.layout[y][x] == "zombie") {
 
@@ -173,11 +197,20 @@ hhtd.rebuildGrid = function() {
                     });
                 }
             }
-            else if (hhtd.layout[y][x]) {
+            else if (hhtd.layout[y][x] == "start") {
 
-//                console.log("layout text exists " + hhtd.layout[y][x]);
-                rowHtml += "<div class='word'>" + hhtd.layout[y][x] + "</div>";
+                rowHtml += "<div class='start'></div>";
             }
+            else if (hhtd.layout[y][x] == "end") {
+
+                rowHtml += "<div class='end'></div>";
+            }
+//             else if (hhtd.layout[y][x]) {
+
+// //                console.log("layout text exists " + hhtd.layout[y][x]);
+//                 rowHtml += "<div class='word'>" + hhtd.layout[y][x] + "</div>";
+//             }
+
             rowHtml += "</div>";
         }
 
@@ -624,7 +657,6 @@ hhtd.leftToBottom = function(t) {
 
     return c;
 }
-
 
 hhtd.route = [
     { x: 5, y: 8, orientation: "right", helper: hhtd.leftToRight },
