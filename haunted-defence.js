@@ -26,15 +26,20 @@ var hhtd = {
         name: "Alfred",
         color: "#40da32"
     }, {
-        time: 80,
+        time: 100,
         passengers: 2,
         name: "Bill",
         color: "#b06a42"
     }, {
-        time: 140,
+        time: 220,
         passengers: 2,
         name: "Chris",
         color: "#a4ba52"
+    }, {
+        time: 320,
+        passengers: 2,
+        name: "Derek",
+        color: "#549ac2"
     }]
 }
 
@@ -45,7 +50,7 @@ hhtd.bottomToTop = function(t) {
         y: 40 - (2 * t)
     }
 
-    console.log("bottomToTop(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("bottomToTop(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -57,7 +62,7 @@ hhtd.bottomToRight = function(t) {
         y: 40 - t
     }
 
-    console.log("bottomToRight(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("bottomToRight(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -69,7 +74,7 @@ hhtd.leftToRight = function(t) {
         y: 20
     }
 
-    console.log("bottomToRight(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("bottomToRight(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -81,7 +86,7 @@ hhtd.leftToTop = function(t) {
         y: 20 - t
     }
 
-    console.log("leftToTop(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("leftToTop(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -93,7 +98,7 @@ hhtd.bottomToLeft = function(t) {
         y: 40 - t
     }
 
-    console.log("bottomToLeft(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("bottomToLeft(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -105,7 +110,7 @@ hhtd.rightToLeft = function(t) {
         y: 20
     }
 
-    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -117,7 +122,7 @@ hhtd.rightToBottom = function(t) {
         y: 20 + t
     }
 
-    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -129,7 +134,7 @@ hhtd.topToBottom = function(t) {
         y: t * 2
     }
 
-    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -141,7 +146,7 @@ hhtd.topToRight = function(t) {
         y: t
     }
 
-    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -153,7 +158,7 @@ hhtd.leftToBottom = function(t) {
         y: 20 + t
     }
 
-    console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
+    //console.log("rightToLeft(" + t + ") = " + c.x + ", " + c.y);
 
     return c;
 }
@@ -190,6 +195,38 @@ hhtd.route = [
 ];
 
 hhtd.init = function() {
+
+    $("#train-sequencer").addClass("hide");
+
+    hhtd.startShop();
+}
+
+hhtd.startShop = function() {
+
+    hhtd.rebuildGrid();
+
+    $(".shop-item").click(clickHandler.shopItemClick);    
+
+    $("#right-side").append("<div id='start-round'>Start round</div>");
+
+    $("#start-round").click(function() {
+        hhtd.startRound();
+        $("#currency-container").addClass("hide");
+        $("#start-round").remove();
+
+        $("#train-sequencer").removeClass("hide");
+    });
+}
+
+hhtd.startRound = function() {
+
+    hhtd.rebuildGrid();
+    setInterval(hhtd.timer, 100);
+}
+
+hhtd.rebuildGrid = function() {
+
+    $("#tracks").html("");
 
     var rowHtml;
 
@@ -241,7 +278,7 @@ hhtd.init = function() {
     }
 
     $(".cell").click(clickHandler.onClick);
-    $(".shop-item").click(clickHandler.shopItemClick);
+    $(".shop-item").hide();
 }
 
 hhtd.AddTrain = function(t) {
@@ -262,6 +299,8 @@ hhtd.timer = function() {
     }
 
     $(".train").remove();
+
+    var survivors = [];
 
     $.each(hhtd.trains, function(i, t) {
 
@@ -285,6 +324,8 @@ hhtd.timer = function() {
             $(".train:last").css("left", ( (hhtd.unit/2) - 23 + (c.x * hhtd.unit) + o.x) + "px");
             $(".train:last").css("top", ( (hhtd.unit/2) - 21 + (c.y * hhtd.unit) + o.y) + "px");
             $(".train:last").css("background-color", t.color);
+
+            survivors.push(t);
         }
 
         t.time++;
@@ -296,6 +337,15 @@ hhtd.timer = function() {
             t.cellprogress++;
         }
     });
+
+    hhtd.trains = survivors;
+
+    $("#train-sequencer").html("");
+
+    $.each(hhtd.trains, function(i, t) {
+        $("#train-sequencer").append("<div class='train-ui'></div>");
+        $(".train-ui:last").css("background-color", t.color);
+    })
 
     if (hhtd.schedule.length > 0) {
 

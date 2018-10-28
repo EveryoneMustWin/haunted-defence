@@ -187,6 +187,35 @@ a:visited {
     border: 2px solid white;
 }
 
+#start-round {
+    margin-top: 180px;
+    margin-left: 50px;
+    width: 100px;
+    height: 30px;
+    padding-top: 8px;
+    border-radius: 4px;
+    background-color: #ad4;
+    font-size: 18px;
+}
+
+#train-sequencer {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 480px;
+    background-color: #2d4818;
+}
+
+.train-ui {
+    float: bottom;
+    width: 190px;
+    height: 50px;
+    margin: 5px;
+    background-color: #999;
+
+}
+
 </style>
 
 <script src="jquery-1.10.2.min.js"></script>
@@ -198,7 +227,6 @@ a:visited {
 $().ready(function() {
 
     hhtd.init();
-    setInterval(hhtd.timer, 100);
 });
 
 </script>
@@ -216,6 +244,8 @@ $().ready(function() {
 	</div>
 
     <div id="right-side">
+        <div id="train-sequencer">
+        </div>
         <div id="currency-container">
             <span>$</span>
             <span id="currency-display">300</span>
